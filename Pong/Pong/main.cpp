@@ -124,6 +124,7 @@ int main(int argc, char* argv[])
 		//loop principal
 		switch (estadoAtual)
 		{
+
 		//menu do jogo
 		case menu:
 			message = TTF_RenderText_Solid( font, "Conecte pela linha de comando", textColor );
