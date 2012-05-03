@@ -16,6 +16,7 @@ int main()
         return 1;
     }
 
+
 	//cria socket
 	SOCKET s = INVALID_SOCKET;
 	s = socket(AF_INET, SOCK_STREAM,6);
