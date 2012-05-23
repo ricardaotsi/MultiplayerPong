@@ -77,12 +77,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ball.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="MathUtil.h" />
+    <ClInclude Include="paddle.h" />
     <ClInclude Include="TcpServer.h" />
     <ClInclude Include="Vector2D.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ball.cpp" />
+    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="MathUtil.cpp" />
+    <ClCompile Include="paddle.cpp" />
     <ClCompile Include="TcpServer.cpp" />
     <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>

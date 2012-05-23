@@ -5,6 +5,11 @@
 #include <stdio.h>
 #include "Vector2D.h"
 
+#define W 800
+#define H 600
+
+// GameState* gameState;
+
 int main()
 {
 	//Inicia socket v2.0
@@ -103,6 +108,11 @@ int main()
 	char* dados = "inicia";
 	send( sd, dados, (int)strlen(dados), 0 );
 	 send( sd2, dados, (int)strlen(dados), 0 );
+
+	 // Iniciar Gamestate
+	/*gameState = new GameState(W, H);
+	printf(gameState->toBuffer());*/
+
 	while(1){
 		char buffer[256];
 		verErro = recv(sd, buffer,(int)strlen(buffer), 0);

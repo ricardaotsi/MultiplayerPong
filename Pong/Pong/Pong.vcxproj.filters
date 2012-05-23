@@ -30,7 +30,7 @@
     <ClCompile Include="ball.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="padldle.cpp">
+    <ClCompile Include="paddle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,7 +47,7 @@
     <ClInclude Include="ball.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="padldle.h">
+    <ClInclude Include="paddle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
