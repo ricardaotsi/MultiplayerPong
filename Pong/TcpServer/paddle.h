@@ -12,6 +12,7 @@ public:
 	Vector2D dirP;
 	int ponto;
 	paddle( int x, int y);
-	int mover(float deltaTime, int vel, int h,SDL_Event event);
+	int mover(float deltaTime, int vel, int h, const char *direcao);
+	char *toChar(char *nome);
 };
 

@@ -1,13 +1,18 @@
 #include "ball.h"
 
 
-ball::ball(int dirInicia, int w, int h)
+//ball::ball(int dirInicia, int w, int h)
+//{
+//	if(dirInicia == 0)
+//		dirB.set(2,0);
+//	else
+//		dirB.set(-2,0);
+//	posB.set(w/2,h/2);
+//}
+
+ball::ball()
 {
-	if(dirInicia == 0)
-		dirB.set(2,0);
-	else
-		dirB.set(-2,0);
-	posB.set(w/2,h/2);
+
 }
 
 void ball::mover(float deltaTime, int vel, Vector2D j1, Vector2D j2, int w, int h)

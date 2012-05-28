@@ -2,9 +2,10 @@
 #include <SDL\SDL_image.h>
 #include <SDL\SDL_ttf.h>
 #include "ball.h"
-#include "padldle.h"
+#include "paddle.h"
 #include <time.h>
 #include "ClientTcp.h"
+#include "GameState.h"
 
 //variáveis da janela
 const int w = 800;
@@ -73,14 +74,9 @@ int main(int argc, char* argv[])
 		clean_up();
 	load_files();
 
-	//cria jogadores, bola e socket
-	srand(SDL_GetTicks());
-	int dirBolaIni = rand()%2; 
-	ball b = ball(dirBolaIni,w,h);
-	padldle j1 = padldle(10,h/2-60);
-	padldle j2 = padldle(w-20,h/2-60);
 	ClientTcp sock;
 	sock.init();
+	GameState gState = GameState();
 
 	//variáveis para controle do tempo
 	float deltaTime = 0.0;
@@ -88,8 +84,8 @@ int main(int argc, char* argv[])
     float lastTime = 0;
 
 	//chars para mostrar os pontos na tela
-	char msg[10] ="Pontos: ";
-	char ponto[3];
+	char *msg ="Pontos: ";
+	char *ponto="";
 
 	//char para enviar mensagem pro servidor
 	char buffer[512];
@@ -97,6 +93,8 @@ int main(int argc, char* argv[])
 	char* ip=new CHAR();
 	char* porta=new CHAR();
 	bool quit = false;
+	char bufferrecv[512];
+
 	while (quit == false)
 	{
 		thisTime = SDL_GetTicks();
@@ -120,11 +118,10 @@ int main(int argc, char* argv[])
 				}
 			}
 		}
-
+		
 		//loop principal
 		switch (estadoAtual)
 		{
-
 		//menu do jogo
 		case menu:
 			message = TTF_RenderText_Solid( font, "Conecte pela linha de comando", textColor );
@@ -136,54 +133,46 @@ int main(int argc, char* argv[])
 			printf("Digite a porta: \n");
 			std::cin>> porta;
 			sock.criaSock(ip,porta);
-			if(sock.recebeMsg("")==1)
+			if(sock.recebeMsg(bufferrecv, sizeof(bufferrecv), gState) == 1)
 			{
 				estadoAtual = jogando;
+				printf("Conexao feita jogo inicio \n");
+				//sock.nBlock();
 			}
 			break;
 
 		//loop  do jogo
 		case jogando:
-			if(j1.mover(deltaTime,300,h,event)==1)
-			{
-				sprintf(buffer, "%f",j1.posP.y);
-				sock.mandaMsg(buffer);
-				j2.posP.y=sock.recebeMsg(buffer);
-			}
-			b.mover(deltaTime,100,j1.posP,j2.posP,w,h);
-			//verifica pontuação e reinicia bola
-			if(b.posB.x+10<=0 || b.posB.x>=w)
-			{
-				if(b.posB.x+10<=0)
-				{
-					j2.ponto+=1;
-					if(j2.ponto==10)
-						estadoAtual=fim;
-				}
-				if(b.posB.x>=w)
-				{
-					j1.ponto+=1;
-					if(j1.ponto==10)
-						estadoAtual=fim;
-				}
-				dirBolaIni = rand()%2; 
-				b = ball(dirBolaIni,w,h);
-			}
-			message = TTF_RenderText_Solid( font, msg, textColor );
+			sock.recebeMsg(bufferrecv, sizeof(bufferrecv), gState);
+			/*message = TTF_RenderText_Solid( font, msg, textColor );
 			desenhar(30,20,message,screen);
 			desenhar(w-message->w-50,20,message,screen);
 			message = TTF_RenderText_Solid( font, itoa(j1.ponto,ponto,10), textColor );
 			desenhar(140,20,message,screen);
 			message = TTF_RenderText_Solid( font, itoa(j2.ponto,ponto,10), textColor );
-			desenhar(w-message->w-30,20,message,screen);
-			desenhar(j1.posP.x,j1.posP.y,tileP,screen);
-			desenhar(j2.posP.x,j2.posP.y,tileP,screen);
-			desenhar(b.posB.x,b.posB.y,tileB,screen);
+			desenhar(w-message->w-30,20,message,screen);*/
+			if( event.type == SDL_KEYDOWN )
+			{
+				switch( event.key.keysym.sym )
+				{
+				case SDLK_UP:
+					sprintf(buffer,"%f;%d;%s;",deltaTime, 200,"up");
+					sock.mandaMsg(buffer);
+					break;
+				case SDLK_DOWN:
+					sprintf(buffer,"%f;%d;%s;",deltaTime, 200,"down");
+					sock.mandaMsg(buffer);
+					break;
+				}
+			}
+			desenhar(gState.j1->posP.x, gState.j1->posP.y, tileP, screen);
+			desenhar(gState.j2->posP.x, gState.j2->posP.y, tileP, screen);
+			desenhar(gState.bola->posB.x, gState.bola->posB.y, tileB, screen);
 			break;
 
 		//fim do jogo
 		case fim:
-			if(j1.ponto==10)
+			if(gState.j1->ponto == 10)
 			{
 				message = TTF_RenderText_Solid( font, "You Win!!", textColor );
 				desenhar(w/2-message->w/2,h/2,message,screen);

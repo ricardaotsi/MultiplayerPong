@@ -56,6 +56,12 @@ int ClientTcp::criaSock(  char* ip, char* porta)
 	return 0;
 }
 
+void ClientTcp::nBlock()
+{
+	u_long iMode = 1;
+	ioctlsocket(s, FIONBIO, &iMode);
+}
+
 int ClientTcp::mandaMsg(  char* dados)
 {
 	ir = send( s, dados, (int)strlen(dados), 0 );
@@ -69,21 +75,38 @@ int ClientTcp::mandaMsg(  char* dados)
 	return 0;
 }
 
-float ClientTcp::recebeMsg(char* dados)
+
+float ClientTcp::recebeMsg(char *buffer, size_t size, GameState &gState)
 {
 	int i=0;
-	char bufferrecv[1024];
-	ir = recv(s, bufferrecv, (int)strlen(bufferrecv), 0);
-	if(ir>0)
+	int n = 1, total = 0, found = 0;
+    while (!found) {
+        n = recv(s, &buffer[total], size - total - 1, 0);
+        if (n == -1) {
+            /* Error, check 'errno' for more details */
+            break;
+        }
+        total += n;
+        buffer[total] = '\0';
+        found = (strchr(buffer, '\n') != 0);
+    }
+
+	char *pch;
+	pch = strtok (buffer,";");
+	int j=0;
+	while (pch != NULL && j < 8)
 	{
-		if(strncmp("inicia",bufferrecv,ir)==0)
-		{
-			i = 1;
-			printf("Conexao feita jogo inicio \n");
-		}else if(strncmp(dados,bufferrecv,ir)){
-			i=atof(dados);
-		}
+		strcpy(cmd[j],pch);
+		pch = strtok (NULL, ";");
+		j++;
 	}
+	if(strncmp("comando:inicia",cmd[1],14)==0)
+	{
+		i = 1;
+	}
+
+	gState.fromBuffer(cmd);
+
 	return i;
 }
 

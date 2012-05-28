@@ -39,7 +39,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>C:\Program Files\Microsoft Visual Studio 10.0\VC\lib\SDL;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft Visual Studio 10.0\VC\lib;C:\Program Files\Microsoft Visual Studio 10.0\VC\lib\SDL;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -80,6 +80,7 @@
   <ItemGroup>
     <ClCompile Include="ball.cpp" />
     <ClCompile Include="ClientTcp.cpp" />
+    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MathUtil.cpp" />
     <ClCompile Include="paddle.cpp" />
@@ -88,6 +89,7 @@
   <ItemGroup>
     <ClInclude Include="ball.h" />
     <ClInclude Include="ClientTcp.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="MathUtil.h" />
     <ClInclude Include="paddle.h" />
     <ClInclude Include="Vector2D.h" />

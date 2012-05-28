@@ -1,13 +1,15 @@
 #include "paddle.h"
 
 
-paddle::paddle(int x, int y)
+//paddle::paddle(int x, int y)
+//{
+//	dirP.set(0,0);
+//	posP.set(x,y);
+//	ponto =0;
+//}
+paddle::paddle()
 {
-	dirP.set(0,0);
-	posP.set(x,y);
-	ponto =0;
 }
-
 
 int paddle::mover(float deltaTime, int vel, int h, SDL_Event event)
 {

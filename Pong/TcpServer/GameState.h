@@ -12,8 +12,8 @@ private:
 public:
 	GameState(int w, int h);
 	~GameState(void);
-	char* toBuffer();
-	void fromBuffer();
-	void update();
+	char* toBuffer(int numJogador);
+	void fromBuffer(char *buffer);
+	void update(char *buffer, int numJogador);
 };
 

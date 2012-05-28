@@ -1,16 +1,27 @@
 #include "TcpServer.h"
-#include <ws2tcpip.h>
-#include <WinSock2.h>
+
 #include <iostream>
 #include <stdio.h>
 #include "Vector2D.h"
+#include <tchar.h>
+#include "GameState.h"
 
 #define W 800
 #define H 600
 
-// GameState* gameState;
+GameState *gState;
+SOCKET sd;
+SOCKET sd2;
 
-int main()
+void sendGameState()
+{
+	char* dados=gState->toBuffer(1);
+	send( sd, dados, (int)strlen(dados), 0 );
+	dados=gState->toBuffer(2);
+	send( sd2, dados, (int)strlen(dados), 0 );
+}
+
+int _tmain()
 {
 	//Inicia socket v2.0
 	int verErro;
@@ -79,7 +90,7 @@ int main()
 		return 1;
 	}
 
-	SOCKET sd = INVALID_SOCKET;
+	
 	//aceita conexão do cliente 1
 	sd = accept(s,NULL,NULL);
 	if (sd == INVALID_SOCKET) {
@@ -90,7 +101,7 @@ int main()
 	}else
 		printf("Connection successful \n");
 
-	SOCKET sd2 = INVALID_SOCKET;
+	sd2 = INVALID_SOCKET;
 	//aceita conexão do cliente 1
 	sd2 = accept(s,NULL,NULL);
 	if (sd2 == INVALID_SOCKET) {
@@ -104,30 +115,28 @@ int main()
 	//seta como não bloqueante
 	u_long iMode = 1;
 	ioctlsocket(sd, FIONBIO, &iMode);
-	 ioctlsocket(sd2, FIONBIO, &iMode);
-	char* dados = "inicia";
-	send( sd, dados, (int)strlen(dados), 0 );
-	 send( sd2, dados, (int)strlen(dados), 0 );
-
-	 // Iniciar Gamestate
-	/*gameState = new GameState(W, H);
-	printf(gameState->toBuffer());*/
+	ioctlsocket(sd2, FIONBIO, &iMode);
+	//char* dados = "inicia";
+	gState = new GameState(W,H);
+	sendGameState();
+	//printf(gState->toBuffer());
 
 	while(1){
-		char buffer[256];
+		char buffer[512];
 		verErro = recv(sd, buffer,(int)strlen(buffer), 0);
 		if(verErro>0)
 		{
-			send( sd, buffer, (int)strlen(buffer), 0 );
-			
+			gState->update(buffer,1);
 		}
 		char buffer2[512];
 		verErro = recv(sd2, buffer2,(int)strlen(buffer2), 0);
 		if(verErro>0)
 		{
-			send( sd2, buffer2, (int)strlen(buffer2), 0 );
-			
+			gState->update(buffer2,2);
 		}
+		sendGameState();
 	}
 	return 0;
 }
+
+

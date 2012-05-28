@@ -1,6 +1,7 @@
 #include "ball.h"
 #include <stdlib.h>
 #include <cstring>
+#include <stdio.h>
 
 ball::ball(int dirInicia, int w, int h)
 {
@@ -40,19 +41,7 @@ void ball::mover(float deltaTime, int vel, Vector2D j1, Vector2D j2, int w, int 
 }
 
 char* ball::toChar() {
-	char temp[256];
-	char tempInt[3];
-
-	// Bola Pos X
-	itoa( posB.x, tempInt, 10);
-	strcpy( temp, "bola:posB:x:");
-	strcat( temp, tempInt );
-	strcat( temp, ";" );	
-
-	itoa( posB.y, tempInt, 10);
-	strcpy( temp, "bola:posB:y:");
-	strcat( temp, tempInt );
-	strcat( temp, ";" );	
-
+	char temp[512];
+	sprintf(temp,"bola:posB:x:%d;bola:posB:y:%d;",(int)posB.x,(int)posB.y);
 	return temp;
 }
