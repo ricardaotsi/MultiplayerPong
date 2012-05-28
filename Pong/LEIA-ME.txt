@@ -1,0 +1,38 @@
+Equipe:
+Diego Haas Sanches
+Ricardo Arruda SOwek
+
+
+Os arquivos executáveis dentro da pasta debug e release foram renomeados para a extensão .exec
+
+1-Executar TcpServer.exe e digitar a porta, o ip é setado automaticamente.
+
+2-Executar o Pong.exe. Irá abrir a janela SDL e uma janela command por trás, conectar com o servidor
+pelo command digitando ip e porta.
+
+3-Executar um segundo Pong.exe seguindo os passos acima.
+
+4-Quando os 2 clientes conectam no servidor, este dispara a mensagem de início de jogo 
+para os 2 clientes.
+
+
+
+
+Problemas:
+
+O jogo ainda não está funcional.
+A principal dificuldade é tratar do recebimento das mensagens do servidor no cliente.
+Na 1ª vez a mensagem vem corretamente, porém conforme o tempo de jogo passa a mensagem começa a vir quebrada, em sequências diferentes e isto está atrapalhando na hora de setar a posição das 
+raquetes e da bola.
+
+
+Protocolo utilizado: TCP
+
+Este protocolo é orientado à conexão, ou seja, é estabelecida uma conexão
+entre cliente servidor para assim poder transmitir dados. Todas as propriedades da conexão
+estabelecida são negociadas no ínicio da conexão.
+
+O protocolo TCP possui algumas propriedades:
+-Garantir a entrega dos datagramas em ordem correta e sem terem sido corrompidos;
+-Verificar a integridade dos dados transmitidos;
+-Confirmação de mensagens recebidas com sucesso e em caso de fracasso reenvio da mensagem.
