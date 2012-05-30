@@ -10,7 +10,6 @@ private:
 	int ir;
 	struct sockaddr_in my_addr;
 	SOCKET s;
-	
 
 public:
 	char cmd[8][100];

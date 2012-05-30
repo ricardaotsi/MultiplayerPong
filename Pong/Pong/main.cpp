@@ -128,11 +128,13 @@ int main(int argc, char* argv[])
 			desenhar(w/2-message->w/2,h/2-message->h/2,message,screen);
 			SDL_Flip(screen);
 			//recebe variáveis para conexão
-			printf("Digite o ip: \n");
+			// Descomentar para ser possível digitar o ip e a porta
+			/*printf("Digite o ip: \n");
 			std::cin>> ip;
 			printf("Digite a porta: \n");
-			std::cin>> porta;
-			sock.criaSock(ip,porta);
+			std::cin>> porta;*/
+			// sock.criaSock(ip,porta);
+			sock.criaSock("127.0.0.1", "2222");
 			if(sock.recebeMsg(bufferrecv, sizeof(bufferrecv), gState) == 1)
 			{
 				estadoAtual = jogando;

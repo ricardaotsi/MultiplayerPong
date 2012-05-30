@@ -17,6 +17,7 @@ void sendGameState()
 {
 	char* dados=gState->toBuffer(1);
 	send( sd, dados, (int)strlen(dados), 0 );
+	// printf("Dados para o player 1:\n%s\n", dados);
 	dados=gState->toBuffer(2);
 	send( sd2, dados, (int)strlen(dados), 0 );
 }
@@ -53,9 +54,10 @@ int _tmain()
         wprintf(L"Set SO_REUSEADDR: ON\n");
 
 	//Descobre a porta e ip do servidor
-	std::cout << "Digite a porta: \n";
-	char* porta = new CHAR();
-	std::cin>> porta;
+	// std::cout << "Digite a porta: \n";
+	// char* porta = new CHAR();
+	// std::cin>> porta;
+	PCSTR porta = {"2222"};
 	struct addrinfo *result = NULL;
 	struct addrinfo hints;
 	ZeroMemory(&hints, sizeof(hints));
@@ -121,8 +123,10 @@ int _tmain()
 	sendGameState();
 	//printf(gState->toBuffer());
 
+	int fps = 15;
 	while(1){
 		char buffer[512];
+		memset(buffer, 0, 511);
 		verErro = recv(sd, buffer,(int)strlen(buffer), 0);
 		if(verErro>0)
 		{
@@ -134,7 +138,14 @@ int _tmain()
 		{
 			gState->update(buffer2,2);
 		}
+
+		// Fazer cálculo da bola fora do update
+		// Como passar o deltaTime? Tem que ser o mesmo para os dois jogadores, então terá que estar no servidor (?)
+		gState->moverBola(0.05, 200);
+
 		sendGameState();
+
+		Sleep(1000 / fps);
 	}
 	return 0;
 }
