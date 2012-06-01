@@ -11,7 +11,7 @@
 const int w = 800;
 const int h = 600;
 const int SCREEN_BPP = 32;
-const float FRAMES_PER_SECOND = 60;
+const float FRAMES_PER_SECOND = 15;
 
 //variaveis de desenho
 SDL_Surface *screen = NULL;
@@ -154,7 +154,7 @@ int main(int argc, char* argv[])
 			desenhar(w-message->w-30,20,message,screen);*/
 			if( event.type == SDL_KEYDOWN )
 			{
-				switch( event.key.keysym.sym )
+				/*switch( event.key.keysym.sym )
 				{
 				case SDLK_UP:
 					sprintf(buffer,"%f;%d;%s;",deltaTime, 200,"up");
@@ -164,7 +164,16 @@ int main(int argc, char* argv[])
 					sprintf(buffer,"%f;%d;%s;",deltaTime, 200,"down");
 					sock.mandaMsg(buffer);
 					break;
+				}*/
+				if(event.key.keysym.sym == SDLK_UP)
+				{
+					sprintf(buffer,"%f;%d;%s;",deltaTime, 200,"up");
+					sock.mandaMsg(buffer);
+				}else if(event.key.keysym.sym == SDLK_DOWN){
+					sprintf(buffer,"%f;%d;%s;",deltaTime, 200,"down");
+					sock.mandaMsg(buffer);
 				}
+
 			}
 			sock.recebeMsg(bufferrecv, sizeof(bufferrecv), gState);
 			desenhar(gState.j1->posP.x, gState.j1->posP.y, tileP, screen);

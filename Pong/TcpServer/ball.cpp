@@ -37,7 +37,7 @@ void ball::mover(float deltaTime, int vel, Vector2D j1, Vector2D j2, int w, int 
 		dirB.y*=-1;
 		
 	posB += dirB*deltaTime*vel;
-	printf("Bola X: %f, Bola Y: %f\n", posB.x, posB.y);
+	//printf("Bola X: %f, Bola Y: %f\n", posB.x, posB.y);
 }
 
 char* ball::toChar() {

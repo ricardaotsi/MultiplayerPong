@@ -53,9 +53,10 @@ void GameState::update(char *buffer, int numJogador)
 		j++;
 		//cmd.push_back(tempBuffer);
 	}
+	
 	float deltaTime = atof(temp[0]);
 	int vel = atoi(temp[1]);
-
+	printf("deltaTime: %f; vel: %d; direcao: %s. \n",deltaTime,vel,temp[2]);
 	if(numJogador == 1)
 	{
 		j1->mover(deltaTime, vel , 600, temp[2]);
