@@ -145,7 +145,6 @@ int main(int argc, char* argv[])
 
 		//loop  do jogo
 		case jogando:
-			sock.recebeMsg(bufferrecv, sizeof(bufferrecv), gState);
 			/*message = TTF_RenderText_Solid( font, msg, textColor );
 			desenhar(30,20,message,screen);
 			desenhar(w-message->w-50,20,message,screen);
@@ -167,6 +166,7 @@ int main(int argc, char* argv[])
 					break;
 				}
 			}
+			sock.recebeMsg(bufferrecv, sizeof(bufferrecv), gState);
 			desenhar(gState.j1->posP.x, gState.j1->posP.y, tileP, screen);
 			desenhar(gState.j2->posP.x, gState.j2->posP.y, tileP, screen);
 			desenhar(gState.bola->posB.x, gState.bola->posB.y, tileB, screen);

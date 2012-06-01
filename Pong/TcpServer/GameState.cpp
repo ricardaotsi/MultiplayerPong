@@ -40,26 +40,27 @@ char* GameState::toBuffer(int numJogador)
 
 void GameState::update(char *buffer, int numJogador)
 {
-	vector<string> cmd;
+	//vector<string> cmd;
+	char temp[3][20];
 	char *pch;
 	pch=strtok (buffer,";");
 	int j=0;
 	while (pch != NULL && j < 3)
 	{
-		char tempBuffer[100];
-		strcpy(tempBuffer, pch);
+		//char tempBuffer[100];
+		strcpy(temp[j], pch);
 		pch = strtok (NULL, ";");
 		j++;
-		cmd.push_back(tempBuffer);
+		//cmd.push_back(tempBuffer);
 	}
-	float deltaTime = atof( cmd.at(0).c_str() );
-	int vel = atoi( cmd.at(1).c_str() );
+	float deltaTime = atof(temp[0]);
+	int vel = atoi(temp[1]);
 
 	if(numJogador == 1)
 	{
-		j1->mover(deltaTime, vel , 600, cmd.at(2).c_str());
+		j1->mover(deltaTime, vel , 600, temp[2]);
 	}else{
-		j2->mover(deltaTime, vel , 600, cmd.at(2).c_str());
+		j2->mover(deltaTime, vel , 600, temp[2]);
 	}
 }
 

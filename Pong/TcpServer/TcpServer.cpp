@@ -126,7 +126,7 @@ int _tmain()
 	int fps = 15;
 	while(1){
 		char buffer[512];
-		memset(buffer, 0, 511);
+		//memset(buffer, 0, 511);
 		verErro = recv(sd, buffer,(int)strlen(buffer), 0);
 		if(verErro>0)
 		{
